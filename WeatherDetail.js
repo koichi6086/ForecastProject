@@ -35,13 +35,6 @@ const App = (props) => {
         getData();
     }, [])
 
-    useEffect(()=>{
-        if(data !== null)
-        {
-            console.log("data", data)
-        }
-    }, [data])
-
     return (
         <View style={{padding: 20}}>
             <FlatList 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, PermissionsAndroid, Image, TouchableOpacity, FlatList, Alert } from 'react-native';
+import { View, Text, StyleSheet, PermissionsAndroid, Image, TouchableOpacity, FlatList, Alert, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import Geolocation from '@react-native-community/geolocation';
@@ -63,7 +63,14 @@ const App = (props) => {
     }
 
     useEffect(()=>{
-        requestLocationPermissions();
+        if(Platform.OS === "android")
+        {
+            requestLocationPermissions();
+        }
+        else
+        {
+            setPermissions(true);
+        }
     }, [])
 
     useEffect(()=>{
@@ -90,15 +97,7 @@ const App = (props) => {
         }
     }, [longitude])
 
-    useEffect(()=>{
-        if(weatherData !== null)
-        {
-            console.log("awefasd", weatherData.current)
-        }
-    }, [weatherData])
     
-
-
     return(
         <View style={{padding: 20, height: '100%'}}>
             {
@@ -115,7 +114,7 @@ const App = (props) => {
                             </View>
                         </View>
                     </View>
-                    <Text style={{fontWeight: 'bold', margin: 10}}>Weekly Weather</Text>
+                    <Text style={{fontWeight: 'bold', margin: 10}}>Daily Weather</Text>
                     <FlatList 
                     data={weatherData.daily}
                     keyExtractor={(item, index) => item + index}
